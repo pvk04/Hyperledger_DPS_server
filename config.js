@@ -13,11 +13,16 @@ module.exports.TRANSACTIONS = {
     MAKEPENALTY: "makePenalty",
     PAYPENALTY: "payPenalty",
     EXTENDLICENSE: "extendLicense",
+    ADDDRIVERLICENSE: "addDriverToLicense",
     ADDCAR: "addCar",
   },
   LICENSES: {
     INIT: "init",
     GETLICENSES: "getLicenses",
-    ADDDRIVERLICENSE: "addDriverToLicense",
   },
 };
+module.exports.ORGS = {
+  USERS: "org1",
+  BANK: "org2",
+};
+module.exports.DATE = new Date();
