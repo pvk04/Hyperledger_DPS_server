@@ -4,7 +4,11 @@ const FabricCAServices = require("fabric-ca-client");
 
 module.exports = class Fabric {
   static getConnectionProfile(org) {
-    return JSON.parse(readFileSync(`./gateway/connection-${org}.json`));
+    return JSON.parse(
+      readFileSync(
+        `../../fabric-samples/test-network/organizations/peerOrganizations/${org}.example.com/connection-${org}.json`
+      )
+    );
   }
 
   static createCA(org) {

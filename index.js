@@ -36,7 +36,7 @@ app.use("/getUsers", async (req, res) => {
     }
   } catch (e) {
     console.log(e.errors);
-    return res.json({ erorr: e.errors[0].message });
+    return res.json({ erorr: e.errors[0]?.message });
   }
 });
 
@@ -64,7 +64,7 @@ app.use("/login", async (req, res) => {
     }
   } catch (e) {
     console.log(e.errors);
-    return res.json({ erorr: e.errors[0].message });
+    return res.json({ erorr: e?.errors[0]?.message });
   }
 });
 
@@ -98,7 +98,7 @@ app.use("/registration", async (req, res) => {
     }
   } catch (e) {
     console.log(e.errors);
-    return res.json({ erorr: e.errors[0].message });
+    return res.json({ erorr: e.errors[0]?.message });
   }
 });
 
@@ -128,7 +128,7 @@ app.use("/addLicense", async (req, res) => {
     }
   } catch (e) {
     console.log(e.errors);
-    return res.json({ erorr: e.errors[0].message });
+    return res.json({ erorr: e.errors[0]?.message });
   }
 });
 
@@ -156,7 +156,37 @@ app.use("/extendLicense", async (req, res) => {
     }
   } catch (e) {
     console.log(e.errors);
-    return res.json({ erorr: e.errors[0].message });
+    return res.json({ erorr: e.errors[0]?.message });
+  }
+});
+
+app.use("/addCar", async (req, res) => {
+  try {
+    const { login, category, price, term } = req.body;
+
+    const wallet = await fabric.createWallet(ORGS.USERS, "admin");
+    const gateway = await fabric.createGateway(wallet, "admin", ORGS.USERS);
+    const contract = await fabric.getContract(
+      gateway,
+      CHANNEL,
+      CHAINCODE,
+      CONTRACTS.USERS
+    );
+    const userData = await contract.submitTransaction(
+      TRANSACTIONS.USERS.ADDCAR,
+      login,
+      category,
+      price,
+      term
+    );
+
+    if (userData) {
+      gateway.disconnect();
+      return res.json(await fromBuffer(userData));
+    }
+  } catch (e) {
+    console.log(e.errors);
+    return res.json({ erorr: e.errors[0]?.message });
   }
 });
 
@@ -185,7 +215,7 @@ app.use("/payPenalty", async (req, res) => {
     }
   } catch (e) {
     console.log(e.errors);
-    return res.json({ erorr: e.errors[0].message });
+    return res.json({ erorr: e.errors[0]?.message });
   }
 });
 
@@ -214,7 +244,7 @@ app.use("/makePenalty", async (req, res) => {
     }
   } catch (e) {
     console.log(e.errors);
-    return res.json({ erorr: e.errors[0].message });
+    return res.json({ erorr: e.errors[0]?.message });
   }
 });
 
